@@ -2,7 +2,13 @@
   "name": "url-shortener",
   "version": "0.1.0",
   "private": true,
+  "main": "server",
+  "proxy": "http://localhost:9000",
   "dependencies": {
+    "body-parser": "^1.18.3",
+    "dotenv": "^6.2.0",
+    "express": "^4.16.4",
+    "pg": "^7.7.1",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-scripts": "2.1.2"
