@@ -7,6 +7,7 @@ const generateId = require('./id-util');
 //App Setup
 const app = express();
 app.use(bodyParser.json());
+app.use(express.static(`${__dirname}/../build`));
 
 //Database Setup
 client.connect();
@@ -28,6 +29,11 @@ app.get('/:uniqueId', async (req, res) => {
   const { uniqueId } = req.params;
   const { rows } = await client.query(`SELECT * FROM urls WHERE unique_id = '${uniqueId}'`);
   res.redirect(rows[0].url);
+});
+
+const path = require('path');
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../build/index.html'));
 });
 
 //Shhh Listen...
