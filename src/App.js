@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 class App extends Component {
   state = {
     url: '',
+    uniqueId: null,
   };
 
   submitUrl = e => {
@@ -19,22 +20,24 @@ class App extends Component {
       redirect: 'follow',
       referrer: 'no-referrer',
       body: JSON.stringify({ url }),
-    }).then(res => {
-      console.log(res);
+    }).then(async res => {
+      const { unique_id } = await res.json();
+      this.setState({ uniqueId: unique_id });
     });
   };
 
   render() {
+    const { url, uniqueId } = this.state;
     return (
       <div>
         <h1>URL Shortener</h1>
         <form onSubmit={this.submitUrl}>
-          <input
-            value={this.state.url}
-            onChange={({ target }) => this.setState({ url: target.value })}
-          />
+          <input value={url} onChange={({ target }) => this.setState({ url: target.value })} />
           <button type="submit">Submit</button>
         </form>
+        {uniqueId && (
+          <a href={`http://localhost:9000/${uniqueId}`}>http://localhost:9000/{uniqueId}</a>
+        )}
       </div>
     );
   }

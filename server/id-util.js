@@ -8,7 +8,7 @@ const generateShortId = async (bytes = 3, numberOfIds = 25) => {
     potentialShortIds.push(crypto.randomBytes(bytes).toString('hex'));
   }
   const { rows } = await client.query(
-    `SELECT * FROM urls WHERE short_id = ANY('{${potentialShortIds}}')`
+    `SELECT * FROM urls WHERE unique_id = ANY('{${potentialShortIds}}')`
   );
   const remainingIds = potentialShortIds.filter(id => rows.indexOf(id) < 0);
 

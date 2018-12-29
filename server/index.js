@@ -11,19 +11,24 @@ app.use(bodyParser.json());
 //Database Setup
 client.connect();
 client.query(
-  'CREATE TABLE IF NOT EXISTS urls (id SERIAL PRIMARY KEY, url TEXT NOT NULL, short_id TEXT UNIQUE NOT NULL);'
+  'CREATE TABLE IF NOT EXISTS urls (id SERIAL PRIMARY KEY, url TEXT NOT NULL, unique_id TEXT UNIQUE NOT NULL);'
 );
 
-// Endpoint
+// Endpoints
 app.post('/getShortUrl', async (req, res) => {
   const { url } = req.body;
-  const short_id = await generateId();
+  const uniqueId = await generateId();
+  const { rows } = await client.query(
+    `INSERT INTO urls (url, unique_id) VALUES ('${url}', '${uniqueId}') RETURNING *;`
+  );
+  res.status(200).json(rows[0]);
 });
 
-// const path = require('path');
-// app.get('*', (req, res) => {
-//   res.sendFile(path.join(__dirname, '../build/index.html'));
-// });
+app.get('/:uniqueId', async (req, res) => {
+  const { uniqueId } = req.params;
+  const { rows } = await client.query(`SELECT * FROM urls WHERE unique_id = '${uniqueId}'`);
+  res.redirect(rows[0].url);
+});
 
 //Shhh Listen...
 app.listen(9000, () => console.log(`Up and running on port 9000`));
