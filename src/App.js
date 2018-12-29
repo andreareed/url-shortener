@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class App extends Component {
   state = {
     url: '',
-    uniqueId: null,
+    uniqueId: 'nuasdfasdfll',
   };
 
   submitUrl = e => {
@@ -29,14 +29,17 @@ class App extends Component {
   render() {
     const { url, uniqueId } = this.state;
     return (
-      <div>
+      <div className="container">
         <h1>URL Shortener</h1>
         <form onSubmit={this.submitUrl}>
           <input value={url} onChange={({ target }) => this.setState({ url: target.value })} />
-          <button type="submit">Submit</button>
+          <button type="submit">Generate URL</button>
         </form>
         {uniqueId && (
-          <a href={`http://localhost:9000/${uniqueId}`}>http://localhost:9000/{uniqueId}</a>
+          <div className="display-results">
+            <a href={`http://localhost:9000/${uniqueId}`}>http://localhost:9000/{uniqueId}</a>
+            <button>&#11014; Copy Link &#11014;</button>
+          </div>
         )}
       </div>
     );
