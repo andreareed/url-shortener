@@ -95,3 +95,8 @@ a {
   color: #f00;
   margin-bottom: -20px;
 }
+
+#confirmationMessage {
+  opacity: 0;
+  transition: 0.5s;
+}

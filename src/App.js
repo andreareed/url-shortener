@@ -45,6 +45,17 @@ class App extends Component {
     select.removeAllRanges();
     select.addRange(range);
     document.execCommand('copy');
+
+    this.displayConfirmation();
+  };
+
+  displayConfirmation = () => {
+    const confirmationMessage = document.getElementById('confirmationMessage');
+    confirmationMessage.style.opacity = 1;
+
+    setTimeout(() => {
+      confirmationMessage.style.opacity = 0;
+    }, 1000);
   };
 
   render() {
@@ -73,6 +84,7 @@ class App extends Component {
             <button onClick={this.copyLink}>&#11014; Copy Link &#11014;</button>
           </div>
         )}
+        <div id="confirmationMessage">COPIED!</div>
       </div>
     );
   }
