@@ -90,3 +90,8 @@ a {
   width: 300px;
   background-color: #fd8300;
 }
+
+.error {
+  color: #f00;
+  margin-bottom: -20px;
+}
